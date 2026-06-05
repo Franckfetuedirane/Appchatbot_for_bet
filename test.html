@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Assistant Pronostics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .header-section h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 32px;
+        }
+
+        .header-section p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .feature-card .emoji {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .info-section ul {
+            list-style-position: inside;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .info-section li {
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        .status-bar {
+            background: #34C759;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .status-bar.error {
+            background: #FF3B30;
+        }
+
+        .status-bar.warning {
+            background: #FF9500;
+        }
+
+        .emoji-row {
+            font-size: 24px;
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .header-section {
+                padding: 25px;
+            }
+
+            .header-section h1 {
+                font-size: 24px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header-section">
+            <h1>🤖 Assistant Pronostics</h1>
+            <p>Votre chatbot web pour les pronostics sportifs</p>
+            <p style="font-size: 14px; color: #999;">Assistance technique • Inscription • Support client</p>
+        </div>
+
+        <!-- STATUS -->
+        <div class="status-bar">
+            ✅ Chatbot prêt à l'emploi - Cliquez sur "Ouvrir le chatbot" pour commencer!
+        </div>
+
+        <!-- FEATURES -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="emoji">💬</div>
+                <h3>Chat Intelligent</h3>
+                <p>Répondez aux questions des utilisateurs en temps réel avec un système de détection de mots-clés avancé.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="emoji">🌓</div>
+                <h3>Thème Jour/Nuit</h3>
+                <p>Interface moderne avec basculement entre mode clair et mode sombre.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="emoji">📱</div>
+                <h3>Responsive</h3>
+                <p>Fonctionne parfaitement sur tous les appareils: mobile, tablette et desktop.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="emoji">⚡</div>
+                <h3>Rapide</h3>
+                <p>Chargement instantané sans dépendances externes - Fichier HTML pur.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="emoji">🎨</div>
+                <h3>Personnalisable</h3>
+                <p>Modifiez les couleurs, les réponses et les liens facilement en quelques minutes.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="emoji">🔗</div>
+                <h3>Intégration Facile</h3>
+                <p>Déployez sur n'importe quel hébergeur: GitHub Pages, Netlify, Vercel, etc.</p>
+            </div>
+        </div>
+
+        <!-- BOUTONS D'ACTION -->
+        <div style="text-align: center;">
+            <div class="button-group">
+                <a href="index.html" target="_blank" class="btn btn-primary">
+                    🚀 Ouvrir le Chatbot
+                </a>
+                <a href="QUICKSTART.md" class="btn btn-secondary">
+                    📖 Guide Rapide
+                </a>
+                <a href="README.md" class="btn btn-secondary">
+                    📚 Documentation
+                </a>
+            </div>
+        </div>
+
+        <!-- INFO SECTION -->
+        <div class="info-section">
+            <h2>📋 Qu'est-ce que vous obtenez?</h2>
+            <ul>
+                <li>✅ Interface chatbot moderne et réactive</li>
+                <li>✅ 5 boutons d'action rapide pré-configurés</li>
+                <li>✅ System de réponses intelligentes basées sur les mots-clés</li>
+                <li>✅ Liens vers 7 bookmakers majeurs</li>
+                <li>✅ Intégration de 6 réseaux sociaux</li>
+                <li>✅ Lien vidéo tutoriel YouTube</li>
+                <li>✅ Thème jour/nuit automatique</li>
+                <li>✅ Entièrement responsive (mobile-first)</li>
+                <li>✅ Code HTML/JS pur (aucune dépendance)</li>
+                <li>✅ Facile à personnaliser et déployer</li>
+            </ul>
+        </div>
+
+        <!-- GUIDE DE DÉMARRAGE -->
+        <div class="info-section">
+            <h2>🚀 Démarrage Rapide</h2>
+            
+            <h3 style="color: #667eea; margin-top: 20px; margin-bottom: 10px;">Option 1: Ouverture Directe (Recommandée)</h3>
+            <ol style="color: #666; margin-left: 20px;">
+                <li>Double-cliquez sur <strong>index.html</strong></li>
+                <li>Le chatbot s'ouvre immédiatement</li>
+                <li>Aucune installation requise!</li>
+            </ol>
+
+            <h3 style="color: #667eea; margin-top: 20px; margin-bottom: 10px;">Option 2: Personnalisation</h3>
+            <p style="color: #666; margin-bottom: 10px;">Modifiez ces fichiers:</p>
+            <div class="code-block">
+📝 app.js - Ligne 4: PROMO_CODE
+📝 app.js - Ligne 5: YOUTUBE_LINK
+📝 app.js - Lignes 7-15: BOOKMAKERS
+📝 app.js - Lignes 17-24: SOCIAL_NETWORKS
+📝 index.html - Ligne 37: COULEURS CSS
+            </div>
+
+            <h3 style="color: #667eea; margin-top: 20px; margin-bottom: 10px;">Option 3: Déploiement</h3>
+            <p style="color: #666; margin-bottom: 10px;">Téléversez sur:</p>
+            <div class="emoji-row">
+                <span title="GitHub Pages">🐱</span>
+                <span title="Netlify">📦</span>
+                <span title="Vercel">▲</span>
+                <span title="Votre serveur">🌐</span>
+            </div>
+        </div>
+
+        <!-- SUPPORT SECTION -->
+        <div class="info-section">
+            <h2>📚 Documentation Disponible</h2>
+            
+            <h3 style="color: #667eea; margin-top: 15px;">📖 QUICKSTART.md</h3>
+            <p style="color: #666; margin-bottom: 10px;">Guide de démarrage rapide avec instructions étape par étape.</p>
+
+            <h3 style="color: #667eea; margin-top: 15px;">📚 README.md</h3>
+            <p style="color: #666; margin-bottom: 10px;">Documentation complète avec tous les détails de configuration.</p>
+
+            <h3 style="color: #667eea; margin-top: 15px;">⚙️ config.js</h3>
+            <p style="color: #666; margin-bottom: 10px;">Fichier de configuration centralisée (utilisation optionnelle).</p>
+        </div>
+
+        <!-- FILES SECTION -->
+        <div class="info-section">
+            <h2>📁 Structure des Fichiers</h2>
+            <div class="code-block">
+joel/
+├── index.html       ← Ouvrez ce fichier pour démarrer
+├── app.js           ← Logique du chatbot
+├── config.js        ← Configuration optionnelle
+├── package.json     ← Pour npm (optionnel)
+├── test.html        ← Cette page de test
+├── README.md        ← Documentation complète
+├── QUICKSTART.md    ← Guide rapide
+└── .gitignore       ← Configuration Git
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div style="text-align: center; padding: 40px 0; color: white; font-size: 14px;">
+            <p>🤖 Assistant Pronostics - Chatbot Web v1.0</p>
+            <p style="opacity: 0.8; margin-top: 10px;">Créé pour augmenter vos conversions ✨</p>
+        </div>
+    </div>
+
+    <script>
+        // Simple test de la configuration
+        console.log('✅ Page de test chargée');
+        console.log('📁 Fichiers trouvés:');
+        console.log('  - index.html ✓');
+        console.log('  - app.js ✓');
+        console.log('  - README.md ✓');
+        console.log('  - QUICKSTART.md ✓');
+        console.log('');
+        console.log('🚀 Cliquez sur "Ouvrir le Chatbot" pour commencer!');
+    </script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Mobile - Assistant Pronostics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5, #ffffff);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #007AFF;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #007AFF;
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007AFF, #5AC8FA);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #007AFF;
+            border: 2px solid #007AFF;
+        }
+
+        .btn-secondary:hover {
+            background: #007AFF;
+            color: white;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #333;
+        }
+
+        .feature-list li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            color: #34C759;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .tab-item {
+            background: #f9f9f9;
+            border-left: 4px solid #007AFF;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .tab-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #007AFF;
+        }
+
+        .link-box {
+            background: #f0f8ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #007AFF;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        .link-box code {
+            background: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #FF3B30;
+            font-weight: 600;
+        }
+
+        .bookmakers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .bookmaker {
+            background: linear-gradient(135deg, #007AFF, #5AC8FA);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bookmaker-emoji {
+            font-size: 24px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #FF9500;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #856404;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #34C759;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #155724;
+            font-weight: 500;
+        }
+
+        .step {
+            background: #f9f9f9;
+            border-left: 4px solid #007AFF;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+
+        .step strong {
+            color: #007AFF;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .tabs {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                min-width: auto;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 12px;
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .emoji-big {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <h1>📱 Assistant Pronostics Mobile</h1>
+        <p class="subtitle">Version optimisée pour smartphones • 100% responsive</p>
+
+        <!-- QUICK START -->
+        <div class="card">
+            <h2>🚀 Démarrage Rapide</h2>
+            <div class="success">
+                ✅ Tout est prêt! Aucune installation requise.
+            </div>
+            <div class="button-group">
+                <a href="mobile.html" class="btn btn-primary">📱 Ouvrir Version Mobile</a>
+                <a href="start.html" class="btn btn-secondary">⚡ Détection Auto</a>
+            </div>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="card">
+            <h2>✨ Fonctionnalités</h2>
+            <ul class="feature-list">
+                <li>100% Mobile-First optimisé</li>
+                <li>Interface tactile fluide et rapide</li>
+                <li>4 Onglets avec contenu riche</li>
+                <li>Chat intelligent basé sur l'IA</li>
+                <li>Thème jour/nuit automatique</li>
+                <li>Animations smooth et modernes</li>
+                <li>Responsive sur tous les écrans</li>
+                <li>Support iPhone X+ (Safe Area)</li>
+                <li>Charge en moins de 500ms</li>
+                <li>Lien YouTube intégré</li>
+            </ul>
+        </div>
+
+        <!-- TABS STRUCTURE -->
+        <div class="card">
+            <h2>📂 Les 4 Onglets</h2>
+            <div class="tabs">
+                <div class="tab-item">
+                    <strong>💬 Chat</strong>
+                    Discutez avec le bot IA intelligent
+                </div>
+                <div class="tab-item">
+                    <strong>⚡ Actions</strong>
+                    5 boutons d'action rapide
+                </div>
+                <div class="tab-item">
+                    <strong>🎲 Bookmakers</strong>
+                    7 bookmakers avec liens directs
+                </div>
+                <div class="tab-item">
+                    <strong>📹 Vidéo</strong>
+                    Tutoriel YouTube intégré
+                </div>
+            </div>
+        </div>
+
+        <!-- BOOKMAKERS -->
+        <div class="card">
+            <h2>🎲 7 Bookmakers Intégrés</h2>
+            <div class="bookmakers">
+                <div class="bookmaker">
+                    <div class="bookmaker-emoji">🔵</div>
+                    <div>1XBET</div>
+                </div>
+                <div class="bookmaker">
+                    <div class="bookmaker-emoji">🟠</div>
+                    <div>MELBET</div>
+                </div>
+                <div class="bookmaker">
+                    <div class="bookmaker-emoji">🔵</div>
+                    <div>PARIPESA</div>
+                </div>
+                <div class="bookmaker">
+                    <div class="bookmaker-emoji">⚪</div>
+                    <div>BETWINNER</div>
+                </div>
+                <div class="bookmaker">
+                    <div class="bookmaker-emoji">🟢</div>
+                    <div>WINWIN</div>
+                </div>
+                <div class="bookmaker">
+                    <div class="bookmaker-emoji">💜</div>
+                    <div>MEGAPARI</div>
+                </div>
+                <div class="bookmaker">
+                    <div class="bookmaker-emoji">🟡</div>
+                    <div>LINEBET</div>
+                </div>
+            </div>
+            <div class="warning">
+                ⚠️ IMPORTANT: Les inscriptions SANS DÉPÔT ne marchent PAS!<br>
+                💰 Dépôt obligatoire: 3000F bonus
+            </div>
+        </div>
+
+        <!-- CONFIGURATION -->
+        <div class="card">
+            <h2>⚙️ Configuration</h2>
+            <div class="step">
+                <strong>Code Promo:</strong>
+                <code>DBZ5</code>
+            </div>
+            <div class="step">
+                <strong>Bonus 1ère Recharge:</strong>
+                <code>3000F</code>
+            </div>
+            <div class="step">
+                <strong>Vidéo YouTube:</strong>
+                <div class="link-box">
+                    youtube.com/shorts/8WcwWFXelM8
+                </div>
+            </div>
+        </div>
+
+        <!-- LINKS -->
+        <div class="card">
+            <h2>🔗 Liens Principaux</h2>
+            <h3>MEGAPARI (Mis à jour)</h3>
+            <div class="link-box">
+                📝 Inscription: https://dbz5.megapari-642806.net<br>
+                ⬇️ App: https://megapari.uptodown.com/android
+            </div>
+            <h3>BETWINNER (Mis à jour)</h3>
+            <div class="link-box">
+                📝 Inscription: https://betwinner.com/amp/en<br>
+                ⬇️ App: https://betwinner.fr.uptodown.com/android
+            </div>
+        </div>
+
+        <!-- DEPLOYMENT -->
+        <div class="card">
+            <h2>🚀 Déploiement</h2>
+            <h3>Sur GitHub Pages</h3>
+            <div class="step">
+                1️⃣ Poussez les fichiers<br>
+                2️⃣ Activez Pages dans Settings<br>
+                3️⃣ Accès: https://username.github.io/joel/
+            </div>
+            <h3>Sur Netlify</h3>
+            <div class="step">
+                1️⃣ Connectez votre repo<br>
+                2️⃣ Cliquez Deploy<br>
+                3️⃣ URL auto-générée
+            </div>
+            <h3>Sur Vercel</h3>
+            <div class="step">
+                1️⃣ Importez le projet<br>
+                2️⃣ Cliquez Deploy<br>
+                3️⃣ Instantané!
+            </div>
+        </div>
+
+        <!-- TESTING -->
+        <div class="card">
+            <h2>🧪 Avant Lancement</h2>
+            <ul class="feature-list">
+                <li>Testez sur iPhone réel</li>
+                <li>Testez sur Android réel</li>
+                <li>Vérifiez tous les liens</li>
+                <li>Vérifiez la vidéo YouTube</li>
+                <li>Thème jour/nuit fonctionne</li>
+                <li>Aucune erreur console (F12)</li>
+                <li>Testez depuis QR code</li>
+                <li>Déployé en HTTPS</li>
+            </ul>
+        </div>
+
+        <!-- FILES STRUCTURE -->
+        <div class="card">
+            <h2>📁 Fichiers</h2>
+            <div class="step">
+                <strong>mobile.html</strong><br>
+                Interface mobile principale
+            </div>
+            <div class="step">
+                <strong>mobile-app.js</strong><br>
+                Logique JavaScript pour mobile
+            </div>
+            <div class="step">
+                <strong>start.html</strong><br>
+                Détection automatique mobile/desktop
+            </div>
+            <div class="step">
+                <strong>index.html</strong><br>
+                Version desktop (optionnelle)
+            </div>
+        </div>
+
+        <!-- SUPPORT -->
+        <div class="card">
+            <h2>📞 Support</h2>
+            <h3>Le chatbot ne s'ouvre pas?</h3>
+            <ul class="feature-list">
+                <li>Vérifiez que JavaScript est activé</li>
+                <li>Essayez un autre navigateur</li>
+                <li>Videz le cache (Ctrl+Shift+Del)</li>
+                <li>Vérifiez la console (F12)</li>
+            </ul>
+            <h3>Les liens ne fonctionnent pas?</h3>
+            <ul class="feature-list">
+                <li>Vérifiez les URLs dans mobile-app.js</li>
+                <li>Testez directement dans le navigateur</li>
+                <li>Assurez-vous HTTPS pour les liens</li>
+            </ul>
+        </div>
+
+        <!-- NEXT STEPS -->
+        <div class="card">
+            <h2>✅ Prochaines Étapes</h2>
+            <div class="button-group" style="margin: 20px 0;">
+                <a href="mobile.html" class="btn btn-primary">
+                    ▶️ Tester Mobile
+                </a>
+                <a href="MOBILE_README.md" class="btn btn-secondary">
+                    📖 Documentation
+                </a>
+            </div>
+            <div class="warning" style="margin-top: 20px;">
+                💡 Conseil: Testez d'abord sur votre téléphone réel avant de déployer!
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🤖 Assistant Pronostics v2.0 - Version Mobile</p>
+        <p>© 2026 • Production Ready • Prêt à Déployer</p>
+    </div>
+</body>
+</html>
