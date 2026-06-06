@@ -2,240 +2,248 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <title>Assistant Pronostics - Chatbot</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         :root {
-            --primary-color: #007AFF;
-            --secondary-color: #5AC8FA;
-            --bg-light: #FFFFFF;
-            --bg-dark: #1C1C1E;
-            --text-light: #000000;
-            --text-dark: #FFFFFF;
-            --border-light: #E5E5EA;
-            --border-dark: #3A3A3C;
+            --primary: #007AFF;
+            --secondary: #5AC8FA;
+            --success: #34C759;
+            --danger: #FF3B30;
+            --warning: #FF9500;
+            --light-bg: #FFFFFF;
+            --dark-bg: #000000;
+            --light-text: #000000;
+            --dark-text: #FFFFFF;
+            --light-border: #E5E5EA;
+            --dark-border: #3A3A3C;
             --message-bot: #E9E9EB;
             --message-user: #007AFF;
-        }
-
-        body.dark-mode {
-            --bg-light: #1C1C1E;
-            --text-light: #FFFFFF;
-            --message-bot: #3A3A3C;
-            --bg-dark: #000000;
+            color-scheme: light dark;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            transition: background-color 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background: var(--light-bg);
+            color: var(--light-text);
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
         }
 
+        body.dark-mode {
+            --light-bg: #000000;
+            --light-text: #FFFFFF;
+            --message-bot: #3A3A3C;
+        }
+
+        /* MAIN CONTAINER */
         .container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%;
+            background: var(--light-bg);
         }
 
         /* HEADER */
         .header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 20px;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-height: 56px;
         }
 
-        .header h1 {
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .header-controls {
+        .header-left {
             display: flex;
-            gap: 15px;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 10px;
             align-items: center;
         }
 
-        .theme-toggle {
-            background: rgba(255, 255, 255, 0.3);
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.25);
             border: none;
             color: white;
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 20px;
-            transition: background 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            active: rgba(255, 255, 255, 0.4);
         }
 
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.5);
+        .theme-btn:active {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0.95);
         }
 
         .status-badge {
-            background: #34C759;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
             font-weight: 600;
+            letter-spacing: 0.2px;
         }
 
-        /* MAIN CONTENT */
-        .main-content {
-            display: flex;
-            gap: 20px;
+        /* CONTENT SECTION */
+        .content {
             flex: 1;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
 
-        /* LEFT SECTION - QUICK ACTIONS */
-        .quick-actions {
-            width: 280px;
+        /* TABS */
+        .tabs-container {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            overflow-y: auto;
-            padding-right: 10px;
+            gap: 0;
+            border-bottom: 1px solid var(--light-border);
+            background: var(--light-bg);
+            flex-shrink: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
 
-        .quick-actions h3 {
-            font-size: 14px;
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--light-text);
+            opacity: 0.6;
+            font-size: 13px;
             font-weight: 600;
-            color: var(--text-light);
-            opacity: 0.7;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .action-btn {
-            background: var(--bg-light);
-            border: 2px solid var(--border-light);
-            padding: 15px;
-            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-light);
+            white-space: nowrap;
         }
 
-        body.dark-mode .action-btn {
-            background: var(--border-dark);
-            border-color: var(--border-dark);
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            opacity: 1;
         }
 
-        .action-btn:hover {
-            border-color: var(--primary-color);
-            background: var(--primary-color);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .action-btn.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-
-        /* VIDEO SECTION */
-        .video-section {
-            background: var(--message-bot);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: auto;
-        }
-
-        body.dark-mode .video-section {
-            background: var(--border-dark);
-        }
-
-        .video-section h4 {
-            font-size: 12px;
-            margin-bottom: 10px;
-            color: var(--text-light);
-        }
-
-        .video-link {
-            display: inline-block;
-            background: var(--primary-color);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            transition: opacity 0.3s ease;
-        }
-
-        .video-link:hover {
-            opacity: 0.9;
-        }
-
-        /* CHAT SECTION */
-        .chat-section {
-            flex: 1;
-            display: flex;
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
             flex-direction: column;
-            background: var(--bg-light);
-            border-radius: 15px;
+            flex: 1;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--border-light);
         }
 
-        body.dark-mode .chat-section {
-            border-color: var(--border-dark);
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* CHAT TAB */
+        .chat-tab {
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .welcome-message {
+        .welcome-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px 20px;
             text-align: center;
-            padding: 30px;
-            color: var(--text-light);
-            opacity: 0.6;
         }
 
-        .welcome-message h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
+        .welcome-emoji {
+            font-size: 64px;
+            animation: bounce 2s infinite;
         }
 
-        .welcome-message p {
-            font-size: 14px;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .welcome-text h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .welcome-text p {
+            font-size: 13px;
+            opacity: 0.7;
             line-height: 1.6;
+            margin: 5px 0;
         }
 
+        .welcome-text .highlight {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        /* MESSAGES */
         .message {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             animation: slideIn 0.3s ease;
+            max-width: 100%;
         }
 
         @keyframes slideIn {
@@ -258,101 +266,999 @@
         }
 
         .message-avatar {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
+            font-weight: 700;
+            font-size: 14px;
             flex-shrink: 0;
         }
 
         .message.bot .message-avatar {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
         }
 
         .message.user .message-avatar {
-            background: #E5E5EA;
-            color: var(--text-light);
-        }
-
-        body.dark-mode .message.user .message-avatar {
-            background: var(--border-dark);
-        }
-
-        .message-content {
-            max-width: 60%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .message.user .message-content {
-            max-width: 70%;
+            background: var(--light-border);
+            color: var(--light-text);
         }
 
         .message-bubble {
-            padding: 12px 16px;
-            border-radius: 18px;
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 16px;
             word-wrap: break-word;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.4;
+            white-space: pre-wrap;
         }
 
         .message.bot .message-bubble {
             background: var(--message-bot);
-            color: var(--text-light);
+            color: var(--light-text);
+            border-bottom-left-radius: 4px;
         }
 
         .message.user .message-bubble {
             background: var(--message-user);
             color: white;
+            border-bottom-right-radius: 4px;
         }
 
-        .message-time {
-            font-size: 12px;
-            opacity: 0.6;
-            padding: 0 5px;
+        /* MESSAGE BUTTONS */
+        .message-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-top: 12px;
         }
 
-        /* INPUT SECTION */
-        .chat-input-section {
-            padding: 20px;
-            border-top: 1px solid var(--border-light);
-            background: var(--bg-light);
-        }
-
-        body.dark-mode .chat-input-section {
-            border-color: var(--border-dark);
-        }
-
-        .input-container {
+        .message-button {
+            padding: 10px 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+            min-height: 40px;
+        }
+
+        .message-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+        }
+
+        .message-button:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        body.dark-mode .message-button {
+            background: linear-gradient(135deg, #5AC8FA, #007AFF);
+        }
+
+        /* SOCIAL LINKS */
+        .social-links-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 9px;
+            margin-top: 12px;
+        }
+
+        .social-link-card {
+            display: flex;
+            align-items: center;
             gap: 10px;
+            padding: 9px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.62);
+            border: 1px solid rgba(0, 122, 255, 0.16);
+            color: var(--light-text);
+            text-decoration: none;
+            min-width: 0;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .social-link-card:active {
+            transform: scale(0.97);
+            border-color: var(--primary);
+        }
+
+        body.dark-mode .social-link-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(90, 200, 250, 0.24);
+        }
+
+        .social-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 900;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.16);
+        }
+
+        .social-logo.tiktok {
+            background: #000000;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .tiktok-note {
+            position: relative;
+            font-size: 27px;
+            line-height: 24px;
+            text-shadow: -2px 0 #28e7e1, 2px 0 #ff2d55;
+        }
+
+        .social-logo-text {
+            font-size: 9px;
+            line-height: 10px;
+        }
+
+        .social-logo.facebook {
+            border-radius: 50%;
+            background: #1877f2;
             align-items: flex-end;
         }
 
-        .input-box {
+        .facebook-mark {
+            font-size: 42px;
+            line-height: 38px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .social-logo.telegram {
+            border-radius: 50%;
+            background: linear-gradient(180deg, #20b7e8, #149bd7);
+        }
+
+        .telegram-plane {
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 21px solid #ffffff;
+            transform: rotate(-20deg);
+            filter: drop-shadow(-5px 4px 0 rgba(255, 255, 255, 0.38));
+        }
+
+        .social-logo.whatsapp {
+            border-radius: 50%;
+            background: #18c33f;
+            box-shadow: inset 0 0 0 4px #ffffff, 0 5px 12px rgba(0, 0, 0, 0.16);
+        }
+
+        .whatsapp-phone {
+            font-size: 22px;
+            transform: rotate(-12deg);
+        }
+
+        .social-link-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+            line-height: 1.25;
+        }
+
+        .social-link-copy strong {
+            font-size: 13px;
+            color: var(--primary);
+        }
+
+        .social-link-copy span {
+            font-size: 12px;
+            color: var(--light-text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .social-link-copy small {
+            font-size: 11px;
+            color: var(--light-text);
+            opacity: 0.65;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* BOOKMAKERS LIST */
+        .bookmakers-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .bookmaker-item {
+            background: rgba(0, 122, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .bookmaker-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .bookmaker-name-text {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bookmaker-app-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 900;
+            letter-spacing: 0;
+            line-height: 1;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 6px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .bookmaker-item .bookmaker-app-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+        }
+
+        .bookmaker-app-icon.one-xbet {
+            background: linear-gradient(180deg, #055384, #062545);
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .bookmaker-app-icon.one-xbet .one-xbet-mark {
+            transform: skew(-12deg);
+        }
+
+        .bookmaker-app-icon.melbet {
+            width: 70px;
+            height: 42px;
+            border-radius: 6px;
+            background: #191919;
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        .bookmaker-item .bookmaker-app-icon.melbet {
+            width: 58px;
+            height: 36px;
+            font-size: 13px;
+        }
+
+        .melbet-mark span:first-child {
+            color: #ffffff;
+        }
+
+        .melbet-mark span:last-child {
+            color: #f5bd13;
+        }
+
+        .bookmaker-app-icon.paripesa {
+            background: linear-gradient(180deg, #2737ff, #1543d6);
+            font-size: 35px;
+            font-style: italic;
+        }
+
+        .bookmaker-item .bookmaker-app-icon.paripesa {
+            font-size: 29px;
+        }
+
+        .paripesa-mark {
+            transform: skew(-12deg);
+        }
+
+        .bookmaker-app-icon.betwinner {
+            width: 78px;
+            height: 42px;
+            border-radius: 4px;
+            background: #17694f;
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        .bookmaker-item .bookmaker-app-icon.betwinner {
+            width: 62px;
+            height: 36px;
+            font-size: 12px;
+        }
+
+        .betwinner-mark span:first-child {
+            color: #ffd027;
+        }
+
+        .betwinner-mark span:last-child {
+            color: #ffffff;
+        }
+
+        .bookmaker-app-icon.winwin {
+            background: #18181b;
+            font-size: 22px;
+        }
+
+        .bookmaker-app-icon.winwin span {
+            display: inline-block;
+            transform: skew(-10deg);
+        }
+
+        .bookmaker-app-icon.winwin span:first-child {
+            color: #98ff12;
+            margin-right: -3px;
+        }
+
+        .bookmaker-app-icon.winwin span:last-child {
+            color: #ffffff;
+        }
+
+        .bookmaker-app-icon.megapari {
+            background: #171d28;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .megapari-mark {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .megapari-dots {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .megapari-dots i {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .megapari-dots i:first-child {
+            background: #2fa9ff;
+        }
+
+        .megapari-dots i:last-child {
+            background: #ff3434;
+        }
+
+        .bookmaker-app-icon.linebet {
+            background: #005f0c;
+            font-size: 11px;
+        }
+
+        .bookmaker-app-icon.linebet::after {
+            content: "";
+            position: absolute;
+            width: 70%;
+            height: 3px;
+            left: 15%;
+            bottom: 13px;
+            background: #ffffff;
+            transform: skew(-14deg);
+        }
+
+        .bookmaker-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .bm-link, .bm-download-link {
+            padding: 6px 10px;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .download-url {
+            padding: 7px 9px;
+            border-radius: 7px;
+            background: rgba(0, 122, 255, 0.08);
+            color: var(--primary);
+            font-size: 11px;
+            line-height: 1.35;
+            word-break: break-word;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .bm-link:hover, .bm-download-link:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        .bm-link:active, .bm-download-link:active {
+            transform: translateY(0);
+        }
+
+        body.dark-mode .bookmaker-item {
+            background: rgba(90, 200, 250, 0.15);
+            border-left-color: #5AC8FA;
+        }
+
+        /* IPHONE TAB */
+        .iphone-container {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .iphone-section {
+            background: var(--light-bg);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid var(--light-border);
+        }
+
+        .iphone-section h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--light-text);
+        }
+
+        .iphone-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .iphone-step {
+            background: var(--message-bot);
+            border-radius: 10px;
+            padding: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .iphone-step-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--light-text);
+            margin-bottom: 8px;
+        }
+
+        .iphone-step-image {
+            width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            object-fit: cover;
+        }
+
+        .iphone-step-desc {
+            font-size: 12px;
+            color: var(--light-text);
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .iphone-apps-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .iphone-app-item {
+            background: var(--message-bot);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 4px solid var(--primary);
+        }
+
+        .iphone-app-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .iphone-app-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .iphone-app-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .iphone-app-link {
+            padding: 8px 12px;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .iphone-app-link:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .iphone-section {
+            background: rgba(90, 200, 250, 0.1);
+            border-color: rgba(90, 200, 250, 0.2);
+        }
+
+        /* IPHONE APPS BUBBLES */
+        .iphone-apps-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .iphone-app-bubble {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(0, 122, 255, 0.1);
+            border: 2px solid rgba(0, 122, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--light-text);
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .iphone-app-bubble:hover {
+            background: rgba(0, 122, 255, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .iphone-app-bubble:active {
+            transform: scale(0.95);
+        }
+
+        .iphone-app-name {
+            display: block;
+            word-break: break-word;
+        }
+
+        body.dark-mode .iphone-app-bubble {
+            background: rgba(90, 200, 250, 0.1);
+            border-color: rgba(90, 200, 250, 0.2);
+        }
+
+        body.dark-mode .iphone-app-bubble:hover {
+            background: rgba(90, 200, 250, 0.2);
+            border-color: #5AC8FA;
+        }
+
+        /* IPHONE EXPLANATION */
+        .iphone-explanation {
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+        .iphone-app-explanation-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(0, 122, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 122, 255, 0.2);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .iphone-app-explanation-content {
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        body.dark-mode .iphone-app-explanation-header {
+            background: rgba(90, 200, 250, 0.1);
+            border-bottom-color: rgba(90, 200, 250, 0.2);
+        }
+
+        /* QUICK ACTIONS TAB */
+        .quick-actions-grid {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .action-card {
+            background: var(--light-bg);
+            border: 2px solid var(--light-border);
+            padding: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .action-card:active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: scale(0.98);
+        }
+
+        .action-icon {
+            font-size: 24px;
+        }
+
+        .action-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .action-desc {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .action-card:active .action-desc {
+            opacity: 0.9;
+            color: white;
+        }
+
+        /* BOOKMAKERS TAB */
+        .bookmakers-grid {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .bookmaker-box {
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(90, 200, 250, 0.1));
+            border: 1px solid var(--light-border);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bm-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .bm-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .bm-link {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            text-align: center;
+        }
+
+        .bm-link:active {
+            background: var(--secondary);
+            transform: scale(0.95);
+        }
+
+        /* GAME TIPS TAB */
+        .tips-grid,
+        .tips-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .tips-grid {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px;
+        }
+
+        .tips-list {
+            margin-top: 12px;
+        }
+
+        .tip-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px;
+            border-radius: 12px;
+            border: 1px solid var(--light-border);
+            background: linear-gradient(135deg, rgba(255, 59, 48, 0.1), rgba(255, 149, 0, 0.12));
+            color: var(--light-text);
+            text-decoration: none;
+            min-width: 0;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .tip-card.compact {
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 149, 0, 0.12);
+        }
+
+        .tip-card:active {
+            transform: scale(0.97);
+            border-color: var(--warning);
+        }
+
+        .tip-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--danger);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .tip-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .tip-copy strong {
+            font-size: 14px;
+            color: var(--warning);
+        }
+
+        .tip-copy span {
+            font-size: 12px;
+            line-height: 1.35;
+            color: var(--light-text);
+            opacity: 0.76;
+        }
+
+        body.dark-mode .tip-card {
+            border-color: rgba(255, 149, 0, 0.28);
+            background: rgba(255, 149, 0, 0.12);
+        }
+
+        /* VIDEO TAB */
+        .video-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            padding: 20px;
+            gap: 14px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .video-icon {
+            font-size: 54px;
+            animation: pulse 2s infinite;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .video-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .video-desc {
+            font-size: 13px;
+            opacity: 0.7;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .video-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--light-border);
+            background: rgba(0, 122, 255, 0.08);
+            color: var(--light-text);
+            text-decoration: none;
+            min-width: 0;
+        }
+
+        .video-card:active {
+            transform: scale(0.98);
+            border-color: var(--primary);
+        }
+
+        .video-card-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--danger);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .video-card-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+            text-align: left;
+        }
+
+        .video-card-copy strong {
+            color: var(--primary);
+            font-size: 13px;
+        }
+
+        .video-card-copy span {
+            color: var(--light-text);
+            font-size: 12px;
+            line-height: 1.35;
+            opacity: 0.76;
+        }
+
+        body.dark-mode .video-card {
+            background: rgba(90, 200, 250, 0.12);
+            border-color: rgba(90, 200, 250, 0.24);
+        }
+
+        .video-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .video-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+
+        /* INPUT SECTION */
+        .input-section {
+            padding: 12px;
+            border-top: 1px solid var(--light-border);
+            background: var(--light-bg);
+            flex-shrink: 0;
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .input-wrapper {
             flex: 1;
             display: flex;
             align-items: center;
             background: var(--message-bot);
-            border: 1px solid var(--border-light);
-            border-radius: 25px;
-            padding: 10px 15px;
-            transition: all 0.3s ease;
-        }
-
-        body.dark-mode .input-box {
-            background: var(--border-dark);
-            border-color: var(--border-dark);
-        }
-
-        .input-box:focus-within {
-            border-color: var(--primary-color);
+            border-radius: 20px;
+            padding: 8px 14px;
+            border: 1px solid var(--light-border);
         }
 
         .chat-input {
@@ -360,243 +1266,106 @@
             border: none;
             background: transparent;
             font-size: 14px;
-            color: var(--text-light);
+            color: var(--light-text);
             outline: none;
+            resize: none;
+            max-height: 80px;
         }
 
         .chat-input::placeholder {
-            color: var(--text-light);
+            color: var(--light-text);
             opacity: 0.5;
         }
 
         .send-btn {
-            background: var(--primary-color);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
             color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+            font-size: 18px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-            transition: transform 0.2s ease;
-        }
-
-        .send-btn:hover {
-            transform: scale(1.05);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .send-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.9);
         }
 
-        /* FOOTER */
-        .footer {
-            background: var(--message-bot);
-            border-top: 1px solid var(--border-light);
-            padding: 25px 20px;
-        }
-
-        body.dark-mode .footer {
-            background: var(--border-dark);
-            border-color: var(--border-dark);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .footer-section h4 {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            opacity: 0.8;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .footer-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            text-decoration: none;
-            color: var(--primary-color);
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        body.dark-mode .footer-link {
-            background: transparent;
-            border-color: var(--border-dark);
-        }
-
-        .footer-link:hover {
-            background: var(--primary-color);
+        /* WARNING BANNER */
+        .warning-banner {
+            background: var(--danger);
             color: white;
-            border-color: var(--primary-color);
+            padding: 10px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.4;
+            flex-shrink: 0;
         }
 
-        /* BOOKMAKER CARD STYLING */
-        .bookmaker-card {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 12px;
-            background: rgba(0, 122, 255, 0.1);
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .bookmaker-card:hover {
-            background: rgba(0, 122, 255, 0.2);
-            transform: translateX(3px);
-        }
-
-        .bookmaker-name {
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
-
-        .bookmaker-links {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 1024px) {
-            .main-content {
-                gap: 15px;
-            }
-
-            .quick-actions {
-                width: 220px;
-            }
-
-            .message-content {
-                max-width: 75%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-                padding: 10px;
-            }
-
-            .quick-actions {
-                width: 100%;
-                max-height: 150px;
-                overflow-x: auto;
-                flex-direction: row;
-            }
-
-            .action-buttons {
-                flex-direction: row;
-            }
-
-            .action-btn {
-                flex: 1;
-                white-space: nowrap;
-                min-width: 150px;
-            }
-
-            .video-section {
-                display: none;
-            }
-
-            .message-content {
-                max-width: 85%;
-            }
-
-            .message.user .message-content {
-                max-width: 90%;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .header {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-
-            .header h1 {
-                font-size: 20px;
-            }
-        }
-
+        /* RESPONSIVE */
         @media (max-width: 480px) {
-            .container {
-                height: auto;
-                min-height: 100vh;
-            }
-
             .header {
-                padding: 15px;
+                min-height: 52px;
+                padding: 10px 12px;
             }
 
-            .header h1 {
+            .header-title {
+                font-size: 16px;
+            }
+
+            .theme-btn {
+                width: 36px;
+                height: 36px;
                 font-size: 18px;
             }
 
-            .main-content {
+            .tab-btn {
+                font-size: 12px;
                 padding: 10px;
-                gap: 10px;
-            }
-
-            .quick-actions {
-                max-height: 120px;
-            }
-
-            .chat-messages {
-                padding: 15px;
-            }
-
-            .chat-input-section {
-                padding: 15px;
+                min-width: 70px;
             }
 
             .message-bubble {
-                padding: 10px 12px;
                 font-size: 13px;
             }
 
-            .footer-link {
-                font-size: 11px;
-                padding: 6px 10px;
+            .welcome-emoji {
+                font-size: 56px;
             }
 
-            .footer-section h4 {
+            .welcome-text h2 {
+                font-size: 20px;
+            }
+
+            .bm-link {
+                min-width: 80px;
                 font-size: 11px;
+                padding: 8px;
+            }
+
+            .video-title {
+                font-size: 18px;
+            }
+
+            .input-wrapper {
+                padding: 6px 12px;
+            }
+
+            .chat-input {
+                font-size: 13px;
             }
         }
 
         /* SCROLLBAR STYLING */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -604,21 +1373,131 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border-radius: 4px;
+            background: rgba(0, 122, 255, 0.3);
+            border-radius: 3px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-color);
+            background: rgba(0, 122, 255, 0.6);
         }
 
-        body.dark-mode ::-webkit-scrollbar-thumb {
-            background: var(--border-dark);
+        /* SAFE AREA */
+        @supports (padding: max(0px)) {
+            .header {
+                padding-top: max(10px, env(safe-area-inset-top));
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, env(safe-area-inset-right));
+            }
+
+            .input-section {
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, env(safe-area-inset-right));
+            }
+        }
+
+        .warning-text {
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
-    <script src="app.js"></script>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-left">
+                <div style="font-size: 20px;">🤖</div>
+                <div class="header-title">Pronostics</div>
+            </div>
+            <div class="header-right">
+                <div class="status-badge">🟢 En ligne</div>
+                <button class="theme-btn" id="themeToggle">🌙</button>
+            </div>
+        </div>
+
+        <!-- WARNING BANNER -->
+        <div class="warning-banner">
+            <span class="warning-text">Code promo: DBZ5 | Dépôt: 3000F | Bonus de 200%</span>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs-container">
+            <button class="tab-btn active" data-tab="chat">💬 Chat</button>
+            <button class="tab-btn" data-tab="actions">⚡ Actions</button>
+            <button class="tab-btn" data-tab="bookmakers">🎲 Bookmakers</button>
+            <button class="tab-btn" data-tab="video">📹 Vidéo</button>
+            <button class="tab-btn" data-tab="tips">💡 Astuces</button>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- CHAT TAB -->
+            <div class="tab-content active" id="chat-tab">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="welcome-screen">
+                        <div class="welcome-emoji">🤖</div>
+                        <div class="welcome-text">
+                            <h2>Bienvenue!</h2>
+                            <p>Je suis votre Assistant Pronostics</p>
+                            <p class="highlight">⚠️ Les inscriptions SANS DÉPÔT ne marchent PAS!</p>
+                            <p>Dépôt obligatoire: <strong>3000F bonus</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-section">
+                    <div class="input-wrapper">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Votre question...">
+                    </div>
+                    <button class="send-btn" id="sendBtn">📤</button>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS TAB -->
+            <div class="tab-content" id="actions-tab">
+                <div class="quick-actions-grid" id="actionsGrid"></div>
+            </div>
+
+            <!-- BOOKMAKERS TAB -->
+            <div class="tab-content" id="bookmakers-tab">
+                <div class="bookmakers-grid" id="bookmakersGrid"></div>
+            </div>
+
+            <!-- IPHONE TAB -->
+            <div class="tab-content" id="iphone-tab">
+                <div class="iphone-container">
+                    <div class="iphone-section">
+                        <h3>🍎 Configuration iCloud & App Store</h3>
+                        <div class="iphone-steps" id="iphoneSteps">
+                            <!-- Les étapes de configuration seront ajoutées ici -->
+                        </div>
+                    </div>
+
+                    <div class="iphone-section">
+                        <h3>📱 Télécharger les applications</h3>
+                        <div class="iphone-apps-grid" id="iphoneAppsGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TIPS TAB -->
+            <div class="tab-content" id="tips-tab">
+                <div class="tips-grid" id="tipsGrid"></div>
+            </div>
+
+            <!-- VIDEO TAB -->
+            <div class="tab-content" id="video-tab">
+                <div class="video-container">
+                    <div class="video-icon">📹</div>
+                    <div>
+                        <div class="video-title">Toutes les vidéos importantes</div>
+                        <div class="video-desc">Chaque vidéo explique une étape utile: inscription, codes de coupon, jeux virtuels, eSport, Xgame et conseils de jeu.</div>
+                    </div>
+                    <div class="video-grid" id="videoGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="mobile-app.js"></script>
 </body>
 </html>
