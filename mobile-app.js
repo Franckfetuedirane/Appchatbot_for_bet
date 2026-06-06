@@ -191,13 +191,202 @@ const CONFIG = {
         }
     ],
     IPHONE_APPS: [
-        { name: '1XBET', emoji: '🔵', appstore: 'https://apps.apple.com/app/1xbet/id916445325' },
-        { name: 'MELBET', emoji: '🟠', appstore: 'https://apps.apple.com/app/melbet/id1453163868' },
-        { name: 'PARIPESA', emoji: '🔵', appstore: 'https://apps.apple.com/app/paripesa/id1472395403' },
-        { name: 'BETWINNER', emoji: '⚪', appstore: 'https://apps.apple.com/app/betwinner/id1437574444' },
-        { name: 'WINWIN', emoji: '🟢', appstore: 'https://apps.apple.com/app/winwin/id1234567890' },
-        { name: 'MEGAPARI', emoji: '💜', appstore: 'https://apps.apple.com/app/megapari/id1353577656' },
-        { name: 'LINEBET', emoji: '🟡', appstore: 'https://apps.apple.com/app/linebet/id1176149937' }
+        {
+            name: '1XBET',
+            emoji: '🔵',
+            appstore: 'https://apps.apple.com/app/id844035425',
+            region: 'Bénin',
+            country: 'Bénin (+229)',
+            videoTutorial: 'https://youtube.com/shorts/gcvUy5BH76I?si=2Qxo10Qj_6n_E2H7',
+            instructions: [
+                '1️⃣ Ouvrez Réglages',
+                '2️⃣ Appuyez sur votre nom (identifiant Apple)',
+                '3️⃣ Sélectionnez Médias et achats',
+                '4️⃣ Appuyez sur Voir le compte',
+                '5️⃣ Choisissez Pays/Région',
+                '6️⃣ Appuyez sur Modifier le pays ou la région',
+                '7️⃣ Sélectionnez le pays souhaité (Bénin)',
+                '8️⃣ Lisez et acceptez les conditions',
+                '9️⃣ Sélectionnez aucun mode de paiement puis entrez ses informations'
+            ],
+            exampleInfo: {
+                firstName: 'Jean',
+                lastName: 'Houngbédji',
+                address: '125 Rue du Commerce',
+                city: 'Cotonou',
+                region: 'Littoral',
+                postcode: '00229',
+                phone: '+229 97 12 34 56'
+            }
+        },
+        {
+            name: 'MELBET',
+            emoji: '🟠',
+            appstore: 'https://apps.apple.com/app/id1453163868',
+            region: 'Bénin',
+            country: 'Bénin (+229)',
+            videoTutorial: 'https://youtube.com/shorts/gcvUy5BH76I?si=2Qxo10Qj_6n_E2H7',
+            instructions: [
+                '1️⃣ Ouvrez Réglages',
+                '2️⃣ Appuyez sur votre nom (identifiant Apple)',
+                '3️⃣ Sélectionnez Médias et achats',
+                '4️⃣ Appuyez sur Voir le compte',
+                '5️⃣ Choisissez Pays/Région',
+                '6️⃣ Appuyez sur Modifier le pays ou la région',
+                '7️⃣ Sélectionnez le pays souhaité (Bénin)',
+                '8️⃣ Lisez et acceptez les conditions',
+                '9️⃣ Sélectionnez aucun mode de paiement puis entrez ses informations'
+            ],
+            exampleInfo: {
+                firstName: 'Jean',
+                lastName: 'Houngbédji',
+                address: '125 Rue du Commerce',
+                city: 'Cotonou',
+                region: 'Littoral',
+                postcode: '00229',
+                phone: '+229 97 12 34 56'
+            }
+        },
+        {
+            name: 'PARIPESA',
+            emoji: '🔵',
+            appstore: 'https://apps.apple.com/app/id1611889480',
+            region: 'Nigeria',
+            country: 'Nigeria (+234)',
+            videoTutorial: 'https://youtube.com/shorts/7Ow6gsGqSL8?si=BN452600lU0OAt0I',
+            instructions: [
+                '1️⃣ Ouvrez Réglages',
+                '2️⃣ Appuyez sur votre nom (identifiant Apple)',
+                '3️⃣ Sélectionnez Médias et achats',
+                '4️⃣ Appuyez sur Voir le compte',
+                '5️⃣ Choisissez Pays/Région',
+                '6️⃣ Appuyez sur Modifier le pays ou la région',
+                '7️⃣ Sélectionnez le pays souhaité (Nigeria)',
+                '8️⃣ Lisez et acceptez les conditions',
+                '9️⃣ Sélectionnez aucun mode de paiement puis entrez ses informations'
+            ],
+            exampleInfo: {
+                firstName: 'John',
+                lastName: 'Adewale',
+                address: '15 Awolowo Road',
+                city: 'Ikeja',
+                region: 'Lagos',
+                postcode: '100271',
+                phone: '+234 803 123 4567'
+            }
+        },
+        {
+            name: 'BETWINNER',
+            emoji: '⚪',
+            appstore: 'https://apps.apple.com/app/id6747608407',
+            region: 'Cameroun / Côte d\'Ivoire',
+            country: 'Cameroun (+237)',
+            videoTutorial: 'https://youtube.com/shorts/pgD9CHEyDN0?si=84T5IerLzugqpITgf',
+            instructions: [
+                '1️⃣ Ouvrez Réglages',
+                '2️⃣ Appuyez sur votre nom (identifiant Apple)',
+                '3️⃣ Sélectionnez Médias et achats',
+                '4️⃣ Appuyez sur Voir le compte',
+                '5️⃣ Choisissez Pays/Région',
+                '6️⃣ Appuyez sur Modifier le pays ou la région',
+                '7️⃣ Sélectionnez le pays souhaité (Cameroun ou Côte d\'Ivoire)',
+                '8️⃣ Lisez et acceptez les conditions',
+                '9️⃣ Sélectionnez aucun mode de paiement puis entrez ses informations'
+            ],
+            exampleInfo: {
+                firstName: 'James',
+                lastName: 'Pierre',
+                address: 'Independence Avenue',
+                city: 'Yaoundé',
+                region: 'Ouest',
+                postcode: '00000',
+                phone: '+237 2 555 555'
+            }
+        },
+        {
+            name: 'WINWIN',
+            emoji: '🟢',
+            appstore: 'https://apps.apple.com/app/id6747608407',
+            region: 'Seychelles',
+            country: 'Seychelles (+248)',
+            videoTutorial: 'https://youtube.com/shorts/pgD9CHEyDN0?si=84T5IerLzugqpITgf',
+            instructions: [
+                '1️⃣ Ouvrez Réglages',
+                '2️⃣ Appuyez sur votre nom (identifiant Apple)',
+                '3️⃣ Sélectionnez Médias et achats',
+                '4️⃣ Appuyez sur Voir le compte',
+                '5️⃣ Choisissez Pays/Région',
+                '6️⃣ Appuyez sur Modifier le pays ou la région',
+                '7️⃣ Sélectionnez le pays souhaité (Seychelles)',
+                '8️⃣ Lisez et acceptez les conditions',
+                '9️⃣ Sélectionnez aucun mode de paiement puis entrez ses informations'
+            ],
+            exampleInfo: {
+                firstName: 'James',
+                lastName: 'Pierre',
+                address: 'Independence Avenue',
+                city: 'Victoria',
+                region: 'Mahé',
+                postcode: '00000',
+                phone: '+248 2 555 555'
+            }
+        },
+        {
+            name: 'MEGAPARI',
+            emoji: '💜',
+            appstore: 'https://apps.apple.com/app/id1353577656',
+            region: 'Nigeria',
+            country: 'Nigeria (+234)',
+            videoTutorial: 'https://youtube.com/shorts/7Ow6gsGqSL8?si=BN452600lU0OAt0I',
+            instructions: [
+                '1️⃣ Ouvrez Réglages',
+                '2️⃣ Appuyez sur votre nom (identifiant Apple)',
+                '3️⃣ Sélectionnez Médias et achats',
+                '4️⃣ Appuyez sur Voir le compte',
+                '5️⃣ Choisissez Pays/Région',
+                '6️⃣ Appuyez sur Modifier le pays ou la région',
+                '7️⃣ Sélectionnez le pays souhaité (Nigeria)',
+                '8️⃣ Lisez et acceptez les conditions',
+                '9️⃣ Sélectionnez aucun mode de paiement puis entrez ses informations'
+            ],
+            exampleInfo: {
+                firstName: 'John',
+                lastName: 'Adewale',
+                address: '15 Awolowo Road',
+                city: 'Ikeja',
+                region: 'Lagos',
+                postcode: '100271',
+                phone: '+234 803 123 4567'
+            }
+        },
+        {
+            name: 'LINEBET',
+            emoji: '🟡',
+            appstore: 'https://apps.apple.com/app/id1176149937',
+            region: 'Nigeria',
+            country: 'Nigeria (+234)',
+            videoTutorial: 'https://youtube.com/shorts/7Ow6gsGqSL8?si=BN452600lU0OAt0I',
+            instructions: [
+                '1️⃣ Ouvrez Réglages',
+                '2️⃣ Appuyez sur votre nom (identifiant Apple)',
+                '3️⃣ Sélectionnez Médias et achats',
+                '4️⃣ Appuyez sur Voir le compte',
+                '5️⃣ Choisissez Pays/Région',
+                '6️⃣ Appuyez sur Modifier le pays ou la région',
+                '7️⃣ Sélectionnez le pays souhaité (Nigeria)',
+                '8️⃣ Lisez et acceptez les conditions',
+                '9️⃣ Sélectionnez aucun mode de paiement puis entrez ses informations'
+            ],
+            exampleInfo: {
+                firstName: 'John',
+                lastName: 'Adewale',
+                address: '15 Awolowo Road',
+                city: 'Ikeja',
+                region: 'Lagos',
+                postcode: '100271',
+                phone: '+234 803 123 4567'
+            }
+        }
     ],
     IPHONE_STEPS: [
         {
@@ -880,24 +1069,72 @@ function handleiPhoneAppClick(appId, bookmakerName) {
     // Ajouter le message utilisateur
     addUserMessage(bookmakerName);
     
-    // Ajouter la bulle vide pour l'explication (à remplir plus tard)
+    // Ajouter la bulle avec les instructions complètes
     setTimeout(() => {
         const messagesContainer = document.getElementById('chatMessages');
+        
+        // Trouver la config de l'app
+        const appConfig = CONFIG.IPHONE_APPS.find(app => app.name === bookmakerName);
+        
+        if (!appConfig) {
+            addBotMessage(`Désolé, les informations pour ${bookmakerName} n'ont pas pu être trouvées.`);
+            return;
+        }
+        
+        // Créer le message avec les instructions
         const messageEl = document.createElement('div');
         messageEl.className = 'message bot';
-        messageEl.innerHTML = `
-            <div class="message-avatar">AS</div>
-            <div class="message-bubble iphone-explanation">
-                <div class="iphone-app-explanation-header">
-                    ${renderBookmakerIcon({name: bookmakerName, iphone: appId})}
-                    <span>${bookmakerName} - Configuration iOS</span>
-                </div>
-                <div class="iphone-app-explanation-content">
-                    <!-- Explication à ajouter ici -->
-                    <p style="opacity: 0.6; font-style: italic;">Explication détaillée à venir...</p>
+        
+        let instructionsHTML = '<div class="iphone-instructions">';
+        
+        // Titre
+        instructionsHTML += `
+            <div class="iphone-header" style="margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 10px;">
+                <strong>📱 Configuration ${bookmakerName} - iPhone</strong>
+                <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">Région: <strong>${appConfig.region}</strong></div>
+            </div>
+        `;
+        
+        // Instructions étape par étape
+        instructionsHTML += '<div class="steps-list" style="margin-bottom: 15px;">';
+        appConfig.instructions.forEach(instruction => {
+            instructionsHTML += `<div style="padding: 8px 0; border-left: 3px solid var(--primary); padding-left: 10px; margin-bottom: 8px;">${instruction}</div>`;
+        });
+        instructionsHTML += '</div>';
+        
+        // Infos d'exemple
+        instructionsHTML += `
+            <div class="example-info" style="background: rgba(0,122,255,0.08); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+                <strong style="display: block; margin-bottom: 8px;">📝 Exemple d'informations (${appConfig.region}):</strong>
+                <div style="font-size: 12px; line-height: 1.8;">
+                    👤 <strong>${appConfig.exampleInfo.firstName} ${appConfig.exampleInfo.lastName}</strong><br>
+                    📍 ${appConfig.exampleInfo.address}<br>
+                    🏙️ ${appConfig.exampleInfo.city}<br>
+                    🌍 ${appConfig.exampleInfo.region || appConfig.exampleInfo.region}<br>
+                    📮 ${appConfig.exampleInfo.postcode}<br>
+                    📞 ${appConfig.exampleInfo.phone}<br>
+                    🌐 ${appConfig.country}
                 </div>
             </div>
         `;
+        
+        // Boutons d'action
+        instructionsHTML += `
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <a href="${appConfig.videoTutorial}" target="_blank" style="flex: 1; padding: 10px 12px; background: var(--danger); color: white; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 600; font-size: 13px;">🎬 Vidéo Aide</a>
+                <a href="${appConfig.appstore}" target="_blank" style="flex: 1; padding: 10px 12px; background: var(--primary); color: white; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 600; font-size: 13px;">📲 App Store</a>
+            </div>
+        `;
+        
+        instructionsHTML += '</div>';
+        
+        messageEl.innerHTML = `
+            <div class="message-avatar">AS</div>
+            <div class="message-bubble" style="max-width: 100%; text-align: left;">
+                ${instructionsHTML}
+            </div>
+        `;
+        
         messagesContainer.appendChild(messageEl);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }, 300);

@@ -12,6 +12,8 @@
             -webkit-tap-highlight-color: transparent;
             -webkit-user-select: none;
             user-select: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         html, body {
@@ -109,12 +111,28 @@
             font-size: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            active: rgba(255, 255, 255, 0.4);
+            -webkit-appearance: none;
+            appearance: none;
+            padding: 0;
+            touch-action: manipulation;
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
         }
 
         .theme-btn:active {
             background: rgba(255, 255, 255, 0.4);
             transform: scale(0.95);
+        }
+
+        .theme-btn:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
+        }
+
+        .theme-btn:focus:not(:focus-visible) {
+            outline: none;
         }
 
         .status-badge {
@@ -124,6 +142,12 @@
             font-size: 11px;
             font-weight: 600;
             letter-spacing: 0.2px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 49%, 100% { opacity: 1; }
+            50%, 99% { opacity: 0.5; }
         }
 
         /* CONTENT SECTION */
@@ -164,6 +188,23 @@
             cursor: pointer;
             transition: all 0.3s ease;
             white-space: nowrap;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .tab-btn:hover {
+            opacity: 0.8;
+        }
+
+        .tab-btn:active {
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .tab-btn:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: -2px;
         }
 
         .tab-btn.active {
@@ -333,6 +374,15 @@
             gap: 8px;
             white-space: nowrap;
             min-height: 40px;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        .message-button:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
         }
 
         .message-button:active {
@@ -340,9 +390,13 @@
             box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
         }
 
-        .message-button:hover {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        .message-button:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .message-button:focus:not(:focus-visible) {
+            outline: none;
         }
 
         body.dark-mode .message-button {
@@ -1270,6 +1324,14 @@
             outline: none;
             resize: none;
             max-height: 80px;
+            -webkit-appearance: none;
+            appearance: none;
+            padding: 4px;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            outline: none;
         }
 
         .chat-input::placeholder {
@@ -1291,10 +1353,25 @@
             justify-content: center;
             transition: all 0.3s ease;
             flex-shrink: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+            user-select: none;
+            min-width: 36px;
+        }
+
+        .send-btn:hover {
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
         }
 
         .send-btn:active {
             transform: scale(0.9);
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+        }
+
+        .send-btn:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
 
         /* WARNING BANNER */
@@ -1309,31 +1386,161 @@
             flex-shrink: 0;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 480px) {
+        /* ============ RESPONSIVE DESIGN ============ */
+
+        /* TRÈS PETITS ÉCRANS (320px - iPhone SE, Galaxy A01) */
+        @media (max-width: 340px) {
+            :root {
+                --header-padding: 8px;
+                --button-size: 32px;
+            }
+
             .header {
-                min-height: 52px;
-                padding: 10px 12px;
+                min-height: 48px;
+                padding: 8px 8px;
             }
 
             .header-title {
+                font-size: 14px;
+            }
+
+            .header-right {
+                gap: 6px;
+            }
+
+            .theme-btn {
+                width: 32px;
+                height: 32px;
                 font-size: 16px;
+            }
+
+            .status-badge {
+                font-size: 10px;
+                padding: 3px 6px;
+            }
+
+            .tab-btn {
+                font-size: 11px;
+                padding: 8px 6px;
+                min-width: 60px;
+            }
+
+            .warning-banner {
+                padding: 8px 8px;
+            }
+
+            .warning-text {
+                font-size: 10px;
+            }
+
+            .message-bubble {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+
+            .chat-input {
+                font-size: 12px;
+            }
+
+            .send-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .welcome-emoji {
+                font-size: 48px;
+            }
+
+            .welcome-text h2 {
+                font-size: 18px;
+            }
+
+            .welcome-text p {
+                font-size: 12px;
+            }
+        }
+
+        /* PETITS TÉLÉPHONES (341px - 480px) */
+        @media (max-width: 480px) {
+            :root {
+                --header-padding: 10px;
+                --button-size: 36px;
+            }
+
+            .header {
+                min-height: 50px;
+                padding: 10px 10px;
+            }
+
+            .header-title {
+                font-size: 15px;
+                font-weight: 700;
+            }
+
+            .header-left {
+                gap: 8px;
+            }
+
+            .header-right {
+                gap: 8px;
             }
 
             .theme-btn {
                 width: 36px;
                 height: 36px;
                 font-size: 18px;
+                font-weight: 600;
+            }
+
+            .status-badge {
+                font-size: 10px;
+                padding: 4px 8px;
+            }
+
+            .tabs-container {
+                padding: 0;
+                gap: 2px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             .tab-btn {
                 font-size: 12px;
-                padding: 10px;
-                min-width: 70px;
+                padding: 10px 8px;
+                min-width: 65px;
+                flex-shrink: 0;
+            }
+
+            .warning-banner {
+                padding: 10px 10px;
+            }
+
+            .warning-text {
+                font-size: 11px;
+                font-weight: 600;
             }
 
             .message-bubble {
                 font-size: 13px;
+                padding: 10px 12px;
+                border-radius: 14px;
+                max-width: 100%;
+            }
+
+            .input-wrapper {
+                padding: 6px 10px;
+            }
+
+            .chat-input {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+
+            .send-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
             }
 
             .welcome-emoji {
@@ -1344,22 +1551,273 @@
                 font-size: 20px;
             }
 
+            .welcome-text p {
+                font-size: 13px;
+            }
+
             .bm-link {
-                min-width: 80px;
+                min-width: 75px;
                 font-size: 11px;
                 padding: 8px;
             }
 
             .video-title {
+                font-size: 16px;
+            }
+
+            .video-desc {
+                font-size: 12px;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .bookmakers-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        /* TÉLÉPHONES MOYENS (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            :root {
+                --header-padding: 12px;
+            }
+
+            .header {
+                min-height: 52px;
+                padding: 12px 12px;
+            }
+
+            .header-title {
+                font-size: 16px;
+            }
+
+            .tab-btn {
+                font-size: 13px;
+                padding: 10px 10px;
+                min-width: 75px;
+            }
+
+            .message-bubble {
+                font-size: 14px;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .bookmakers-grid {
+                grid-template-columns: 2fr 1fr;
+                gap: 12px;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        /* PHABLETS (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            :root {
+                --header-padding: 14px;
+            }
+
+            .header {
+                min-height: 56px;
+                padding: 14px 14px;
+            }
+
+            .header-title {
                 font-size: 18px;
             }
 
-            .input-wrapper {
+            .tab-btn {
+                font-size: 13px;
+                padding: 12px 14px;
+                min-width: 90px;
+            }
+
+            .message-bubble {
+                font-size: 14px;
+                max-width: 85%;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .bookmakers-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
+        /* TABLETTES (769px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            :root {
+                --header-padding: 16px;
+            }
+
+            .header {
+                min-height: 60px;
+                padding: 16px 16px;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .tab-btn {
+                font-size: 14px;
+                padding: 12px 16px;
+                min-width: 110px;
+            }
+
+            .message-bubble {
+                font-size: 14px;
+                max-width: 75%;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+
+            .bookmakers-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+        }
+
+        /* GRANDS ÉCRANS (1025px+) */
+        @media (min-width: 1025px) {
+            .header {
+                padding: 16px 24px;
+            }
+
+            .header-title {
+                font-size: 22px;
+            }
+
+            .tab-btn {
+                font-size: 15px;
+                padding: 14px 20px;
+                min-width: 130px;
+            }
+
+            .message-bubble {
+                font-size: 15px;
+                max-width: 70%;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+
+            .bookmakers-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+        }
+
+        /* MODE PAYSAGE (landscape) */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header {
+                min-height: 44px;
+                padding: 8px 12px;
+            }
+
+            .header-title {
+                font-size: 14px;
+            }
+
+            .tabs-container {
+                padding: 6px 0;
+            }
+
+            .tab-btn {
+                font-size: 11px;
+                padding: 6px 8px;
+            }
+
+            .input-section {
                 padding: 6px 12px;
+                gap: 6px;
             }
 
             .chat-input {
-                font-size: 13px;
+                font-size: 12px;
+            }
+
+            .send-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .message-bubble {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+        }
+
+        /* NOTCH/SAFE AREA SUPPORT */
+        @supports (padding: max(0px)) {
+            .header {
+                padding-top: max(10px, env(safe-area-inset-top));
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, env(safe-area-inset-right));
+            }
+
+            .input-section {
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, env(safe-area-inset-right));
+            }
+
+            .tabs-container {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+            }
+        }
+
+        /* FIX POUR NAVIGATEURS MODERNES */
+        @supports (gap: 1rem) {
+            .header {
+                display: flex;
+            }
+        }
+
+        /* FLEXBOX COMPATIBILITY */
+        @supports not (gap: 1rem) {
+            .header > * + * {
+                margin-left: 10px;
             }
         }
 
