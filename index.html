@@ -19,15 +19,12 @@
     <div class="app-shell container-fluid p-0">
         <!-- HEADER -->
         <header class="app-header">
-            <div class="d-flex justify-content-between align-items-center py-2">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="header-avatar" aria-hidden="true">🤖</div>
-                    <div>
-                        <div class="header-title">Pronostics</div>
-                        <small class="opacity-75 d-none d-sm-block" style="font-size: 0.6875rem;">Assistant intelligent</small>
-                    </div>
-                </div>
+            <div class="header-row d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-2">
+                    <div class="header-avatar" aria-hidden="true">🤖</div>
+                    <div class="header-title">Pronostics</div>
+                </div>
+                <div class="d-flex align-items-center gap-1">
                     <span class="status-badge d-inline-flex align-items-center">
                         <span class="status-dot"></span><span class="status-label">En ligne</span>
                     </span>
@@ -37,7 +34,7 @@
         </header>
 
         <!-- PROMO BANNER -->
-        <div class="promo-banner py-2 px-3 text-center">
+        <div class="promo-banner py-1 px-2 text-center">
             <span class="warning-text">
                 Code promo: <span class="promo-code">DBZ5</span>
                 &nbsp;·&nbsp; Dépôt: 3000F
@@ -73,13 +70,19 @@
                 <div class="chat-messages" id="chatMessages">
                     <div class="welcome-screen">
                         <div class="welcome-card">
-                            <div class="welcome-emoji mb-3">🤖</div>
-                            <div class="welcome-text">
-                                <h2>Bienvenue !</h2>
-                                <p>Je suis votre Assistant Pronostics</p>
-                                <p class="highlight mb-2">⚠️ Les inscriptions SANS DÉPÔT ne marchent PAS !</p>
-                                <p class="mb-0">Dépôt obligatoire : <strong class="text-primary">3000F bonus</strong></p>
+                            <div class="welcome-card-top">
+                                <div class="welcome-emoji">🤖</div>
+                                <div class="welcome-greeting">
+                                    <span class="welcome-hello">Bonjour !</span>
+                                    <h2>Assistant Pronostics</h2>
+                                </div>
                             </div>
+                            <p class="welcome-intro">Je suis là pour vous guider : inscription, téléchargement, codes coupon et astuces de jeu.</p>
+                            <div class="welcome-alert">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                <span>Les inscriptions <strong>sans dépôt</strong> ne fonctionnent pas — minimum <strong>3000F</strong></span>
+                            </div>
+                            <p class="welcome-hint mb-0"><i class="bi bi-chat-heart me-1"></i>Écrivez votre question ou choisissez une action</p>
                         </div>
                     </div>
                 </div>

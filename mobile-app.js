@@ -474,15 +474,15 @@ const RESPONSE_OPTIONS = {
         text: '💡 Astuces de jeu\n\nVoici des vidéos utiles pour mieux comprendre les cotes, gérer vos mises et éviter les erreurs courantes.'
     },
     'default_response': {
-        text: '👋 Avez-vous des difficultés à vous inscrire ou à télécharger des coupons?\n\nJe peux vous aider avec:',
+        type: 'assistant_menu',
         buttons: [
-            { icon: '💳', label: 'Inscription', action: 'inscription' },
-            { icon: '⬇️', label: 'Téléchargement', action: 'telecharger' },
-            { icon: '🎟️', label: 'Codes de coupon', action: 'codes coupon' },
-            { icon: '📹', label: 'Vidéo d\'inscription', action: 'video' },
-            { icon: '🎮', label: 'Jeu virtuel / eSport et Xgame', action: 'cotes' },
-            { icon: '📱', label: 'Réseaux sociaux', action: 'reseaux' },
-            { icon: '💡', label: 'Astuces de jeu', action: 'astuces' }
+            { icon: '💳', label: 'Inscription', desc: 'Créer un compte avec bonus DBZ5', action: 'inscription' },
+            { icon: '⬇️', label: 'Téléchargement', desc: 'Apps Android & iPhone', action: 'telecharger' },
+            { icon: '🎟️', label: 'Codes de coupon', desc: 'Récupérer vos codes après inscription', action: 'codes coupon' },
+            { icon: '📹', label: 'Vidéo d\'inscription', desc: 'Tutoriel rapide pas à pas', action: 'video' },
+            { icon: '🎮', label: 'Jeu virtuel / eSport', desc: 'FIFA, JEU21, POKER & plus', action: 'cotes' },
+            { icon: '📱', label: 'Réseaux sociaux', desc: 'Telegram, WhatsApp, TikTok…', action: 'reseaux' },
+            { icon: '💡', label: 'Astuces de jeu', desc: 'Conseils et vidéos utiles', action: 'astuces' }
         ]
     },
     'telecharger_android': {
@@ -507,11 +507,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeApp() {
+    setWelcomeGreeting();
     renderActions();
     renderBookmakers();
     renderIphone();
     renderGameTips();
     renderVideoLibrary();
+}
+
+function setWelcomeGreeting() {
+    const helloEl = document.querySelector('.welcome-hello');
+    if (helloEl) helloEl.textContent = `${getTimeGreeting()} !`;
 }
 
 function setupEventListeners() {
@@ -848,12 +854,21 @@ function respondToMessage(message) {
             addBotMessageWithCoteVideos(response.text);
         } else if (response && response.type === 'coupon_video') {
             addBotMessageWithCouponVideo(response.text);
+        } else if (response && response.type === 'assistant_menu') {
+            addBotMessageAssistantMenu(response.buttons);
         } else if (response && response.buttons) {
             addBotMessageWithButtons(response.text, response.buttons);
         } else {
             addBotMessage(response?.text || 'Je comprends pas bien! 🤔');
         }
     }, 300);
+}
+
+function getTimeGreeting() {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return 'Bonjour';
+    if (hour >= 12 && hour < 18) return 'Bon après-midi';
+    return 'Bonsoir';
 }
 
 function addBotMessage(text) {
@@ -868,37 +883,80 @@ function addBotMessage(text) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
+function renderPremiumActionButtons(buttons, extraClass = '') {
+    return buttons.map(btn => `
+        <button class="action-chip ${extraClass}" type="button" data-action="${btn.action}">
+            <span class="action-chip-icon">${btn.icon}</span>
+            <span class="action-chip-text">
+                <span class="action-chip-label">${btn.label}</span>
+                ${btn.desc ? `<span class="action-chip-desc">${btn.desc}</span>` : ''}
+            </span>
+            <i class="bi bi-chevron-right action-chip-arrow"></i>
+        </button>
+    `).join('');
+}
+
+function bindActionButtons(messageEl) {
+    messageEl.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            handleButtonAction(this.dataset.action, this);
+        });
+    });
+}
+
+function addBotMessageAssistantMenu(buttons) {
+    const messagesContainer = document.getElementById('chatMessages');
+    const messageEl = document.createElement('div');
+    messageEl.className = 'message bot';
+    const greeting = getTimeGreeting();
+
+    messageEl.innerHTML = `
+        <div class="message-avatar">AS</div>
+        <div class="message-bubble bot-bubble-premium">
+            <div class="bot-bubble-header">
+                <div class="bot-bubble-wave">👋</div>
+                <div class="bot-bubble-intro">
+                    <span class="bot-bubble-greeting">${greeting} !</span>
+                    <span class="bot-bubble-name">Je suis votre Assistant Pronostics</span>
+                </div>
+            </div>
+            <p class="bot-bubble-message">
+                Ravi de vous accueillir ! Que vous ayez besoin de vous inscrire, télécharger une application ou récupérer vos codes coupon — je suis là pour vous accompagner.
+            </p>
+            <div class="bot-bubble-promo">
+                <span class="bot-bubble-promo-tag">DBZ5</span>
+                <span>Bonus 200% · Dépôt min. 3000F</span>
+            </div>
+            <div class="bot-bubble-divider"></div>
+            <p class="bot-bubble-actions-title">Comment puis-je vous aider ?</p>
+            <div class="action-chips-list">
+                ${renderPremiumActionButtons(buttons)}
+            </div>
+        </div>
+    `;
+
+    messagesContainer.appendChild(messageEl);
+    bindActionButtons(messageEl);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
 function addBotMessageWithButtons(text, buttons) {
     const messagesContainer = document.getElementById('chatMessages');
     const messageEl = document.createElement('div');
     messageEl.className = 'message bot';
-    
-    const buttonsHTML = buttons.map(btn => `
-        <button class="message-button" data-action="${btn.action}">
-            ${btn.icon} ${btn.label}
-        </button>
-    `).join('');
-    
+
     messageEl.innerHTML = `
         <div class="message-avatar">AS</div>
-        <div class="message-bubble">
-            <div>${text}</div>
-            <div class="message-buttons">
-                ${buttonsHTML}
+        <div class="message-bubble bot-bubble-rich">
+            <div class="bot-bubble-rich-text">${text}</div>
+            <div class="action-chips-list action-chips-compact">
+                ${renderPremiumActionButtons(buttons.map(b => ({ ...b, desc: b.desc || '' })))}
             </div>
         </div>
     `;
-    
+
     messagesContainer.appendChild(messageEl);
-    
-    // Ajouter event listeners aux boutons
-    messageEl.querySelectorAll('.message-button').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const action = this.dataset.action;
-            handleButtonAction(action, this);
-        });
-    });
-    
+    bindActionButtons(messageEl);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
@@ -1185,7 +1243,8 @@ function handleButtonAction(action, button) {
     }, 150);
     
     // Trouver le label du bouton
-    const label = button.textContent.trim();
+    const label = button.querySelector('.action-chip-label')?.textContent.trim()
+        || button.textContent.trim();
     
     // Actions spéciales
     if (action === 'video') {
