@@ -5,9 +5,9 @@ const CONFIG = {
     YOUTUBE_LINK: 'https://youtube.com/shorts/8WcwWFXelM8?si=3mk-7gfDPMl509x-',
     YOUTUBE_TITLE: 'Vidéo d\'inscription Rapide',
     COUPON_VIDEO: {
-        title: 'Télécharger les codes de coupon',
-        description: 'Important après inscription: cette vidéo montre comment récupérer les codes de coupon avant de jouer.',
-        url: 'https://www.youtube.com/results?search_query=comment+telecharger+code+coupon+pari+apres+inscription'
+        title: 'Comment télécharger les codes de coupon',
+        description: 'Important après inscription : cette vidéo montre comment récupérer les codes de coupon avant de jouer.',
+        url: 'https://youtube.com/shorts/GdkUwfPgz4Y?si=iP88lYUMlC_IYThS'
     },
     BOOKMAKERS: [
         { 
@@ -127,23 +127,27 @@ const CONFIG = {
     COTE_VIDEOS: [
         {
             title: 'FIFA',
-            description: 'Videos et astuces pour mieux jouer sur FIFA.',
-            url: 'https://www.youtube.com/results?search_query=astuces+jeu+FIFA+pari'
+            description: 'Astuces e-sport pour mieux jouer sur FIFA.',
+            url: 'https://youtu.be/T9C_SggWLMA?si=12SzNZAXz8sxGOMj',
+            couponUrl: 'https://youtube.com/shorts/GdkUwfPgz4Y?si=iP88lYUMlC_IYThS'
         },
         {
             title: 'JEU21',
-            description: 'Videos pour comprendre les bases du jeu 21.',
-            url: 'https://www.youtube.com/results?search_query=astuces+jeu+21+cartes'
+            description: 'Astuces e-sport pour comprendre le jeu 21.',
+            url: 'https://youtu.be/rRGixoxJjB0?si=zg2XDE7fNHI2Rrw7',
+            couponUrl: 'https://youtube.com/shorts/GdkUwfPgz4Y?si=iP88lYUMlC_IYThS'
         },
         {
             title: 'POKER',
-            description: 'Videos pour apprendre les bases et les strategies poker.',
-            url: 'https://www.youtube.com/results?search_query=astuces+poker+debutant'
+            description: 'Astuces e-sport pour apprendre les bases du poker.',
+            url: 'https://youtu.be/rRGixoxJjB0?si=zg2XDE7fNHI2Rrw7',
+            couponUrl: 'https://youtube.com/shorts/GdkUwfPgz4Y?si=iP88lYUMlC_IYThS'
         },
         {
             title: 'PARI SPORTIF',
-            description: 'Videos pour analyser les matchs et les cotes.',
-            url: 'https://www.youtube.com/results?search_query=astuces+pari+sportif+debutant'
+            description: 'Vidéos pour analyser les matchs et les cotes.',
+            url: 'https://www.youtube.com/results?search_query=astuces+pari+sportif+debutant',
+            couponUrl: 'https://youtube.com/shorts/GdkUwfPgz4Y?si=iP88lYUMlC_IYThS'
         }
     ],
     QUICK_ACTIONS: [
@@ -532,22 +536,32 @@ function setupEventListeners() {
 
     sendBtn.addEventListener('click', sendMessage);
 
-    // Actions
-    document.querySelectorAll('.action-card').forEach((card, index) => {
-        card.addEventListener('click', () => handleActionClick(index));
+    // Actions — délégation pour cartes générées dynamiquement
+    document.getElementById('actionsGrid').addEventListener('click', (e) => {
+        const card = e.target.closest('.action-card');
+        if (!card) return;
+        const cards = [...document.querySelectorAll('#actionsGrid .action-card')];
+        const index = cards.indexOf(card);
+        if (index >= 0) handleActionClick(index);
     });
 }
 
 // ========== TABS ==========
 function switchTab(e) {
-    const tabName = e.target.dataset.tab;
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    const tabName = btn.dataset.tab;
 
     // Remove active from all tabs
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+    });
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
     // Add active to clicked tab
-    e.target.classList.add('active');
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
     document.getElementById(tabName + '-tab').classList.add('active');
 
     // Scroll to top
@@ -568,21 +582,22 @@ function toggleTheme() {
 }
 
 function applyTheme() {
+    const toggle = document.getElementById('themeToggle');
     if (darkMode) {
         document.body.classList.add('dark-mode');
-        document.getElementById('themeToggle').textContent = '☀️';
+        toggle.innerHTML = '<i class="bi bi-sun-fill"></i>';
     } else {
         document.body.classList.remove('dark-mode');
-        document.getElementById('themeToggle').textContent = '🌙';
+        toggle.innerHTML = '<i class="bi bi-moon-stars-fill"></i>';
     }
 }
 
 // ========== RENDER ACTIONS ==========
 function renderActions() {
     const actionsGrid = document.getElementById('actionsGrid');
-    actionsGrid.innerHTML = CONFIG.QUICK_ACTIONS.map((action, index) => `
-        <div class="action-card" data-keyword="${action.keyword}">
-            <div style="display: flex; align-items: center; gap: 8px;">
+    actionsGrid.innerHTML = CONFIG.QUICK_ACTIONS.map((action) => `
+        <div class="action-card" data-keyword="${action.keyword}" role="button" tabindex="0">
+            <div class="d-flex align-items-center gap-2">
                 <div class="action-icon">${action.icon}</div>
                 <div class="action-title">${action.title}</div>
             </div>
@@ -689,6 +704,29 @@ function renderGameTips() {
 }
 
 // ========== VIDEO LIBRARY ==========
+function renderCoteVideoItem(video) {
+    const couponUrl = video.couponUrl || CONFIG.COUPON_VIDEO.url;
+    return `
+        <div class="cote-game-block">
+            <div class="cote-game-title">${video.title}</div>
+            <a href="${video.url}" target="_blank" rel="noopener noreferrer" class="tip-card compact cote-video-link">
+                <span class="tip-icon">▶</span>
+                <span class="tip-copy">
+                    <strong>Astuce ${video.title}</strong>
+                    <span>${video.description}</span>
+                </span>
+            </a>
+            <a href="${couponUrl}" target="_blank" rel="noopener noreferrer" class="tip-card compact cote-coupon-link">
+                <span class="tip-icon coupon-icon">🎟️</span>
+                <span class="tip-copy">
+                    <strong>Codes de coupon</strong>
+                    <span>Comment télécharger les codes avant de jouer</span>
+                </span>
+            </a>
+        </div>
+    `;
+}
+
 function getVideoLibrary() {
     return [
         {
@@ -697,11 +735,18 @@ function getVideoLibrary() {
             url: CONFIG.YOUTUBE_LINK
         },
         CONFIG.COUPON_VIDEO,
-        ...CONFIG.COTE_VIDEOS.map(video => ({
-            title: `Jeu virtuel / eSport et Xgame - ${video.title}`,
-            description: video.description,
-            url: video.url
-        })),
+        ...CONFIG.COTE_VIDEOS.flatMap(video => [
+            {
+                title: `Astuce e-sport — ${video.title}`,
+                description: video.description,
+                url: video.url
+            },
+            {
+                title: `Codes coupon — ${video.title}`,
+                description: 'Comment télécharger les codes de coupon pour ce jeu.',
+                url: video.couponUrl || CONFIG.COUPON_VIDEO.url
+            }
+        ]),
         ...CONFIG.GAME_TIPS.map(tip => ({
             title: tip.title,
             description: tip.description,
@@ -932,21 +977,13 @@ function addBotMessageWithCoteVideos(text) {
     const messageEl = document.createElement('div');
     messageEl.className = 'message bot';
 
-    const videosHTML = CONFIG.COTE_VIDEOS.map(video => `
-        <a href="${video.url}" target="_blank" rel="noopener noreferrer" class="tip-card compact">
-            <span class="tip-icon">▶</span>
-            <span class="tip-copy">
-                <strong>${video.title}</strong>
-                <span>${video.description}</span>
-            </span>
-        </a>
-    `).join('');
+    const videosHTML = CONFIG.COTE_VIDEOS.map(video => renderCoteVideoItem(video)).join('');
 
     messageEl.innerHTML = `
         <div class="message-avatar">AS</div>
         <div class="message-bubble">
             <div>${text}</div>
-            <div class="tips-list">
+            <div class="tips-list cote-videos-list">
                 ${videosHTML}
             </div>
         </div>
